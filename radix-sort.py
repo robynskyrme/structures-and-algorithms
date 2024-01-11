@@ -44,7 +44,7 @@ def RadixSort(a):
 
                             # For each place value,
     for d in range(digits):
-                            # For a start, maketen new silos -- one for each digit in the radix base 10
+                            # For a start, make ten new silos -- one for each digit in the radix base 10
         silos = []
         for j in range(10):
             silos.append([])
