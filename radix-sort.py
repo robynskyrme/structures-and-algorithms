@@ -12,7 +12,7 @@ import time
                             # n is a number, c is the column as a power of ten
 def digit(n,c):
                             # by a happy accident (for radix) this returns '0'
-                            # for empty place values rater than throwing an error,
+                            # for empty place values rather than throwing an error,
                             # so that deals with the "pad with leading zeroes" aspect in advance
 
                             # remove higher place-values using modulo 10^column
