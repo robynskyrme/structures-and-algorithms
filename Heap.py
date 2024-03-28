@@ -55,11 +55,15 @@ def build_max_heap(H):
         i -= 1
 
 
+def extract_max(H):
+    
+
+
 if __name__ == "__main__":
 
     list = ['HEAP_ZERO_INDEX']
 
-    for j in range(15):
+    for j in range(11):
         list.append(random.randint(0, 100))
 
     print(list)
@@ -68,5 +72,8 @@ if __name__ == "__main__":
 
     print(list)
 
+    extract_max(list)
+
+    print(list)
 
 
