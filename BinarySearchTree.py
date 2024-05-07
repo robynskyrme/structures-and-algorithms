@@ -1,23 +1,7 @@
 # 28.3.2024
 # Binary Search Tree
 
-# code entered line by line from https://blog.boot.dev/computer-science/binary-search-tree-in-python/
-# with own comments added, to understand and track every step
-
-# interesting, this -- commenting on the code, as I typed it from the website, I understood it
-# --- and it didn't work
-
-# after a long time figuring out that in one of their blocks of code, some lines were  in a slightly different position,
-# I confess I now *do not* quite follow how it works. The problem is with the DELETE function, in which these lines:
-#
-# if self.right == None:
-#     return self.left
-# if self.left == None:
-#     return self.right
-#
-# initially came AFTER the two following if statements. I understood it being there... but it broke the code!
-# Now that this block comes first, I cannot figure it out.
-
+# revisiting this code intending to use it to code an AVL tree
 
 class BSTNode:
     def __init__(self,val=None):
