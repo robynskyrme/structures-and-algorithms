@@ -1,111 +1,132 @@
-# 7.5.2024
+# 9.5.2024
 # AVL tree
 
-class AVL_node:
-    def __init__(self,val=None):
+# both rotations written but only the left is ever called (yet)
+# left unfinished balance check, continue at line 66
+
+
+import sys
+
+# Create a tree node
+class AVL_node(object):
+    def __init__(self, key):
+        self.key = key
         self.left = None
         self.right = None
-        self.val = val
-        self.left_height = -1
-        self.right_height = -1
-        self.diff = 0
+        self.height = 1
 
 
-                                            # INSERT
-    def insert(self,val):
-                            # if insert called on an empty node, just assign the value
-        if not self.val:
-            self.val = val
-            return
+class AVL_tree(object):
 
-                            # if the node already is that value, count that as done
-        if self.val == val:
-            return
-
-                            # if there is a left child, call insert recursively until reaching node without a left child
-        if val < self.val:
-            if self.left:
-                            # and assign the value there
-                self.left_height += 1
-                self.left.insert(val)
-                return
-                            # if there is not a left child, make one, with the value given
-            self.left = AVL_node(val)
-            return
-
-                            # no 'greater than' check as this is the only remaining option: right (= left, inverted)
-        if self.right:
-            self.right_height += 1
-            self.right.insert(val)
-            return
-
-        self.right_height += 1
-        self.right = AVL_node(val)
+                            # FUNCTION: get_height
+                            # gets height of given node
+    def get_height(self, root):
+                            # if root given is None then height is 0
+        if not root:
+            return 0
+                            # if root is not None it will already have a height: return it
+        return root.height
 
 
-            # EXISTS (check if a value exists)
-    def exists(self,val):
-                            # if the value IS the current node, excellent, True
-        if self.val == val:
-            return True
-                            # if the value is less than the current node...
-        if val < self.val:
-                            # if current node has no left, then the value clearly doesn't exist
-            if self.left == None:
-                return False
-                            # if there IS a left node, call EXISTS recursively until either it hits a TRUE or no more lefts
-            return self.left.exists(val)
-
-                            # Without a greater-than check, since these lines only run if val IS greater than self.val
-                            # same as left, but inverted
-        if self.right == None:
-            return False
-        return self.right.exists(val)
+                            # FUNCTION: get_balance
+                            # of the given node: returns the difference in heights between left and right children
+    def get_balance(self, root):
+        if not root:
+            return 0
+        return self.get_height(root.left) - self.get_height(root.right)
 
 
+                            # FUNCTION: insert
+                            # takes the root node being handled, and the key to be inserted
+                            # returns a node
+    def insert(self, root, key):
 
-    def inorder(self,vals):
-        # if there's a left, go to it, call inorder recursively
-        if self.left is not None:
-            self.left.inorder(vals)
-            # if there isn't a left, we've reached the next value, so, append it
-        if self.val is not None:
-            vals.append([self.val,self.left_height,self.right_height])
-            # if there is a right child, call recursively
-        if self.right is not None:
-            self.right.inorder(vals)
-            # return what has been gathered from current node (and beneath)
-        return vals
+                            # if no root is given (or root = None) simply create a new node with the key and return that node
+        if not root:
+            return AVL_node(key)
+                            # if root is given, but key is less. call insert recursively making root's empty left into node of key
+        elif key < root.key:
+            root.left = self.insert(root.left, key)
+                            # otherwise, ley is larger: call insert recursively on root's empty right making it node of key
+        else:
+            root.right = self.insert(root.right, key)
 
-    def preorder(self, vals):
-        if self.val is not None:
-            vals.append([self.val,self.left_height,self.right_height])
-        if self.left is not None:
-            self.left.preorder(vals)
-        if self.right is not None:
-            self.right.preorder(vals)
-        return vals
+                            # set the height of current node (root)
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+                            # check if it's balanced
+        balance = self.get_balance(root)
+                            # two checks which only run if it's unbalanced:
+                            # balance = left.height - right.height
+                            # first, if the left is more than 1 higher than the right:
+        if balance > 1:
+                            # if the key just added is less than node's left root, CALL rotate right
+            if key < root.left.key:
+                return self.rotate_right(root)
+            # 5pm 9/5/2024 CONTINUE FROM HERE TOMORROW
 
 
 
 
+        return root
+
+                            # FUNCTION: rotate right
+    def rotate_right(self,node):
+                            # the following four lines took me about eight thousand years to write
+        new_root = node.left
+        LR_becomes_new_RL = new_root.right
+        new_root.right = node
+        node.left = LR_becomes_new_RL
+                            # update the heights
+        node.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+        new_root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+        return new_root
 
 
+                            # FUNCTION: rotate left
+    def rotate_left(self,node):
+                            # maybe should have done left first, this was a bit easier. Still though
+        new_root = root.right
+        RL_becomes_new_LR = new_root.left
+        new_root.left = node
+        node.right = RL_becomes_new_LR
+                            # update the heights
+        node.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+        new_root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+        return new_root
 
 
 
 
 
 
-
-
-
+                            # FUNCTION: print
+                            # (taken and tweaked from somewhere online til I write my own)
+    def print_tree(self, node, indent, last):
+        if node != None:
+            sys.stdout.write(indent)
+            if last:
+                sys.stdout.write("L----")
+                indent += "     "
+            else:
+                sys.stdout.write("R----")
+                indent += "|    "
+            sys.stdout.write(str(node.key))
+            sys.stdout.write("\n")
+            self.print_tree(node.right, indent, False)
+            self.print_tree(node.left, indent, True)
 
 if __name__ == "__main__":
-    AVL_tree = AVL_node()
 
-    nums = [12, 6, 18, 19, 21, 11, 3, 5, 4, 24, 18]
-    for num in nums:
-        AVL_tree.insert(num)
+    tree = AVL_tree()
+    root = None
+    test = [37, 19, 54, 11, 23, 63, 3,7,9,10]
+    for n in test:
+        root = tree.insert(root, n)
 
-    print(AVL_tree.preorder([]))
+    tree.print_tree(root, "", True)
+
+
+
