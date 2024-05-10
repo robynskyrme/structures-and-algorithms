@@ -1,9 +1,7 @@
 # 9.5.2024
 # AVL tree
 
-# both rotations written but only the left is ever called (yet)
-# left unfinished balance check, continue at line 66
-
+# seemed to work; is now broken again. No idea what the problem is
 
 import sys
 
@@ -40,6 +38,7 @@ class AVL_tree(object):
                             # takes the root node being handled, and the key to be inserted
                             # returns a node
     def insert(self, root, key):
+        print(key)
 
                             # if no root is given (or root = None) simply create a new node with the key and return that node
         if not root:
@@ -47,7 +46,7 @@ class AVL_tree(object):
                             # if root is given, but key is less. call insert recursively making root's empty left into node of key
         elif key < root.key:
             root.left = self.insert(root.left, key)
-                            # otherwise, ley is larger: call insert recursively on root's empty right making it node of key
+                            # otherwise, key is larger: call insert recursively on root's empty right making it node of key
         else:
             root.right = self.insert(root.right, key)
 
@@ -57,16 +56,24 @@ class AVL_tree(object):
                             # check if it's balanced
         balance = self.get_balance(root)
                             # two checks which only run if it's unbalanced:
-                            # balance = left.height - right.height
+                            # (balance = left.height - right.height)
                             # first, if the left is more than 1 higher than the right:
         if balance > 1:
-                            # if the key just added is less than node's left root, CALL rotate right
+                            # if the key just added is less than node's left root, call rotate_right
             if key < root.left.key:
                 return self.rotate_right(root)
-            # 5pm 9/5/2024 CONTINUE FROM HERE TOMORROW
+            else:
+                            # otherwise, rotate_left
+                root.left = self.rotate_left(root.left)
+                return self.rotate_right(root)
 
-
-
+                            # the same, the for the other case (right more than 1 higher than left)
+        if balance < -1:
+            if key > root.right.key:
+                return self.rotate_left(root)
+            else:
+                root.right = self.rotate_right(root.right)
+                return self.rotate_left(root)
 
         return root
 
@@ -122,7 +129,7 @@ if __name__ == "__main__":
 
     tree = AVL_tree()
     root = None
-    test = [37, 19, 54, 11, 23, 63, 3,7,9,10]
+    test = [30,20,40,10,5]
     for n in test:
         root = tree.insert(root, n)
 
