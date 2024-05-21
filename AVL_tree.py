@@ -6,8 +6,7 @@ class AVL_node:
         self.left = None
         self.right = None
         self.val = val
-        self.left_height = -1
-        self.right_height = -1
+        self.height = -1
         self.diff = 0
 
 
@@ -25,8 +24,8 @@ class AVL_node:
                             # if there is a left child, call insert recursively until reaching node without a left child
         if val < self.val:
             if self.left:
+                self.height += 1
                             # and assign the value there
-                self.left_height += 1
                 self.left.insert(val)
                 return
                             # if there is not a left child, make one, with the value given
@@ -35,11 +34,9 @@ class AVL_node:
 
                             # no 'greater than' check as this is the only remaining option: right (= left, inverted)
         if self.right:
-            self.right_height += 1
             self.right.insert(val)
             return
 
-        self.right_height += 1
         self.right = AVL_node(val)
 
 
@@ -70,7 +67,7 @@ class AVL_node:
             self.left.inorder(vals)
             # if there isn't a left, we've reached the next value, so, append it
         if self.val is not None:
-            vals.append([self.val,self.left_height,self.right_height])
+            vals.append([self.val,self.height])
             # if there is a right child, call recursively
         if self.right is not None:
             self.right.inorder(vals)
@@ -79,7 +76,7 @@ class AVL_node:
 
     def preorder(self, vals):
         if self.val is not None:
-            vals.append([self.val,self.left_height,self.right_height])
+            vals.append([self.val,self.height])
         if self.left is not None:
             self.left.preorder(vals)
         if self.right is not None:
