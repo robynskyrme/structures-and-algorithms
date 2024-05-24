@@ -35,20 +35,20 @@ adjacency_list = [
     [7,9], # Fiveways
 ]
 
-def BFT(graph, start):
+def BFS(graph, start):
                             # a set to keep track of nodes which have been visited
     visited = set()
                             # a stack for storing nodes which need to be visited, initialized with the starting node
-    stack = [start]
+    queue = [start]
                             # anything that's in the stack is guaranteed to be visited; we can mark it as such immediately
     visited.add(start)
 
     nodes_order = []
 
                             # repeat the following process for as long as there is a stack of nodes to visit
-    while stack:
+    while queue:
                             # pop the top of the stack
-        node = stack.pop(0)
+        node = queue.pop(0)
                             # for each new node, output or store it:
         nodes_order.append(node)
                             # for every node adjacent to the current node,
@@ -56,8 +56,28 @@ def BFT(graph, start):
                             # if it's been visited already, ignore it
             if adj not in visited:
                             # otherwise, add it to the stack, and mark it as visited
-                stack.append(adj)
+                queue.append(adj)
                 visited.add(adj)
+
+    return nodes_order
+
+                            # this is essentially identical code, except that a stack is used, not a queue
+
+def DFS(graph, start):
+    visited = set()
+    stack = [start]
+    visited.add(start)
+
+    nodes_order =[]
+
+    while stack:
+                            # ... more explicity: for DFS, we store the notes to be visited LIFO (with BFS it's FIFO)
+        node = stack.pop()
+        nodes_order.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                stack.append(neighbor)
+                visited.add(neighbor)
 
     return nodes_order
 
@@ -68,3 +88,6 @@ if __name__ == "__main__":
                             # -- something to discuss in meeting later!
     breadth_first = BFS(adjacency_list, 11)
     print(breadth_first)
+
+    depth_first = DFS(adjacency_list, 6)
+    print(depth_first)
