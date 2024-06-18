@@ -1,5 +1,7 @@
 # Very basic graph for testing Dijkstra
-# Trying Dijkstra WITHOUT CLASSES to begin with
+# Trying Dijkstra WITHOUT CLASSES, for this code
+
+
 import sys
 
 neighbour = [
@@ -38,7 +40,7 @@ def dijkstra(start,end):
                             # Set current node to the smallest distance
         print(distance)
         min = sys.maxsize
-        for i in range(len(distance)-1):
+        for i in range(len(distance)):
             if distance[i] < min and visited[i] == False:
                 min = distance[i]
 
@@ -48,10 +50,9 @@ def dijkstra(start,end):
 
 
                             # For each of its immediate neighbours...
-        print(node)
-        for neighbour_distance in range(len(neighbour[node])-1):
+        for neighbour_distance in range(len(neighbour[node])):
 
-            if neighbour[node][neighbour_distance] and distance[node]:
+            if neighbour[node][neighbour_distance] is not None and distance[node] is not None:
                 leg = distance[node] + neighbour[node][neighbour_distance]
 
                             # if the distance to the neighbour VIA NODE (next leg) is less than stored node distance
@@ -69,10 +70,12 @@ def dijkstra(start,end):
 
         visited[node] = True
 
+        print(visited)
                             # Tripwire! If the target/end node has now been hit, just return the route to it...
+        if visited[end]:
+            return get_route_home(start, end, via)
 
-    print(via)
-    return get_route_home(start,end,via)
+    return get_route_home(start, end, via)
 
 def get_distance_neighbour(start,end):
     return neighbour[start][end]
@@ -85,10 +88,10 @@ def get_route_home(start,end,via):
     node = end
 
     while node is not start:
-        route.append(node)
+        route.insert(0,node)
         node = via[node]
 
-    route.append(start)
+    route.insert(0,start)
 
     print("Route: " + str(route))
 
