@@ -37,8 +37,15 @@ def dijkstra(start,end):
         node = None
                             # Set current node to the smallest distance
         print(distance)
-        node = distance.index(min((x for x in distance if x is not None), default=None))
-                            #  PROBLEM HERE
+        min = sys.maxsize
+        for i in range(len(distance)-1):
+            if distance[i] < min and visited[i] == False:
+                min = distance[i]
+
+
+                            # THIS IS WERE THE PROBLEM IS
+        node = distance.index(min)
+
 
                             # For each of its immediate neighbours...
         print(node)
@@ -61,7 +68,6 @@ def dijkstra(start,end):
 #        distance[3] = 2
 
         visited[node] = True
-        distance[node] = None
 
                             # Tripwire! If the target/end node has now been hit, just return the route to it...
 
