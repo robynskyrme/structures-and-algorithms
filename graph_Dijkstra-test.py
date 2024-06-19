@@ -1,8 +1,10 @@
-# Very basic graph for testing Dijkstra
-# Trying Dijkstra WITHOUT CLASSES
 
-# Works on basic graph of ABCD square with AD vertices also connected
+# Dijkstra's algorithm -- without classes, to begin with
+
+# 19.6.2024 Works on basic graph of ABCD square with AD vertices also connected
 # Tested for various start/end nodes and with various weighting combinations
+
+# 19.6.2024 Works on more complex graph of Brighton (see below)
 
 ''' graph = [
     [None,1,7,7], # 0 Aberdeen
@@ -63,11 +65,9 @@ def dijkstra(start,end):
     distance[start] = 0
 #    print(distance)
     node = None
-                            # While there remains an unvisited node,keep Dijkstraing
+                            # While there remains an unvisited node, keep going
     while False in visited:
-                            # Set current node to the smallest istance
-#        print(distance)
-
+                            # Set current node to the smallest distance
         min = sys.maxsize
 
         for i in range(len(distance)):
@@ -111,8 +111,6 @@ def dijkstra(start,end):
 
     return get_route_home(start, end, via)
 
-def get_distance_neighbour(start,end):
-    return neighbour[start][end]
 
 def get_route_home(start,end,via):
     rs = 19
