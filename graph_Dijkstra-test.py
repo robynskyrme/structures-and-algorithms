@@ -1,14 +1,16 @@
 # Very basic graph for testing Dijkstra
-# Trying Dijkstra WITHOUT CLASSES, for this code
+# Trying Dijkstra WITHOUT CLASSES
 
+# Works on basic graph of ABCD square with AD vertices also connected
+# Tested for various start/end nodes and with various weighting combinations
 
 import sys
 
-neighbour = [
+graph = [
     [None,1,7,7], # 0 Aberdeen
-    [1,None,None,1], # 1 Brighton
+    [1,None,None,5], # 1 Brighton
     [7,None,None,7], # 2 Cardiff
-    [7,1,7,None] # 3 Dundee
+    [7,5,7,None] # 3 Dundee
 ]
 
 def dijkstra(start,end):
@@ -19,7 +21,7 @@ def dijkstra(start,end):
     distance = []
     via = []
 
-    for count_nodes in range(len(neighbour)):
+    for count_nodes in range(len(graph)):
         visited.append(False)
         distance.append(sys.maxsize)
         via.append(start)
@@ -33,33 +35,39 @@ def dijkstra(start,end):
     j = 0
 
     distance[start] = 0
+    print(distance)
+    node = None
                             # While there remains an unvisited node,keep Dijkstraing
     while False in visited:
-                            # node variable: current node
-        node = None
-                            # Set current node to the smallest distance
+                            # Set current node to the smallest istance
         print(distance)
+
         min = sys.maxsize
+
         for i in range(len(distance)):
-            if distance[i] < min and visited[i] == False:
+            if distance[i] < min and visited[i] is False:
                 min = distance[i]
+                node = i
 
 
-                            # THIS IS WERE THE PROBLEM IS
-        node = distance.index(min)
+        print("Current node is " + str(node) + ". MIN node is " + str(min))
 
+
+        #print(node)
 
                             # For each of its immediate neighbours...
-        for neighbour_distance in range(len(neighbour[node])):
+        for adj in range(len(graph[node])):
 
-            if neighbour[node][neighbour_distance] is not None and distance[node] is not None:
-                leg = distance[node] + neighbour[node][neighbour_distance]
+            if graph[node][adj] is not None and visited[adj] is False:
+                leg = distance[node] + graph[node][adj]
+                #print("Distance from " + str(start) + " to " + str(adj) + " via " +str(node) + " is " + str(leg))
 
                             # if the distance to the neighbour VIA NODE (next leg) is less than stored node distance
-                if distance[neighbour_distance] and leg < distance[neighbour_distance]:
-                    print("trip")
-                    distance[neighbour_distance] = leg
-                    via[neighbour_distance] = node
+                if distance[adj] and leg < distance[adj]:
+                    distance[adj] = leg
+                    via[adj] = node
+
+            print(distance)
 
         '''print("fox")
         print(distance)
