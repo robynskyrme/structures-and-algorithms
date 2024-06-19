@@ -4,14 +4,40 @@
 # Works on basic graph of ABCD square with AD vertices also connected
 # Tested for various start/end nodes and with various weighting combinations
 
-import sys
-
-graph = [
+''' graph = [
     [None,1,7,7], # 0 Aberdeen
     [1,None,None,5], # 1 Brighton
     [7,None,None,7], # 2 Cardiff
     [7,5,7,None] # 3 Dundee
+] '''
+
+
+# Test graph of BRIGHTON, UK as a walking map
+# Weightings are how steep/arduous the hill is
+
+graph = [
+    [None, None, None, None, 2, None, 7, None, None, None, None, None], # 0 Kemp Town
+    [None, None, 2, None, 1, 2, None, None, None, None, None, None], # 1 The Lanes
+    [None, 2, None, 0, None, None, None, None, 5, None, None, None], # 2 Churchill Square
+    [None, None, 0, None, None, None, None, None, None, None, None, None], # 3 Palmeira Square
+    [2, 1, None, None, None, 2, 8, 0, None, None, None, None], # 4 Old Steine
+    [None, 2, None, None, 2, None, None, 2, 6, 1, None, None], # 5 North Laine
+    [7, None, None, None, 8, None, None, 9, None, None, 6, None], # 6 Hanover
+    [None, None, None, None, 0, 2, 9, None, None, 4, 0, 7], # 7 The Level
+    [None, None, 5, None, None, 6, None, None, None, 8, None, None], # 8 Seven Dials
+    [None, None, None, None, None, 1, None, 7, 8, None, None, 6], # 9 Preston Circus
+    [None, None, None, None, None, None, 6, 0, None, None, None, None], # 10 Lewes Road
+    [None, None, None, None, None, None, None, 7, None, 6, None, None] # 11 Fiveways
 ]
+
+names = ["Kemp Town","The Lanes","Churchill Square","Palmeira Square","Old Steine",
+             "North Laine", "Hanover","The Level","Seven Dials","Preston Circus",
+             "Lewes Road","Fiveways"]
+
+
+
+
+import sys
 
 def dijkstra(start,end):
     if start == end:
@@ -35,12 +61,12 @@ def dijkstra(start,end):
     j = 0
 
     distance[start] = 0
-    print(distance)
+#    print(distance)
     node = None
                             # While there remains an unvisited node,keep Dijkstraing
     while False in visited:
                             # Set current node to the smallest istance
-        print(distance)
+#        print(distance)
 
         min = sys.maxsize
 
@@ -50,7 +76,7 @@ def dijkstra(start,end):
                 node = i
 
 
-        print("Current node is " + str(node) + ". MIN node is " + str(min))
+#        print("Current node is " + str(node) + ". MIN node is " + str(min))
 
 
         #print(node)
@@ -67,7 +93,7 @@ def dijkstra(start,end):
                     distance[adj] = leg
                     via[adj] = node
 
-            print(distance)
+#            print(distance)
 
         '''print("fox")
         print(distance)
@@ -78,7 +104,7 @@ def dijkstra(start,end):
 
         visited[node] = True
 
-        print(visited)
+#        print(visited)
                             # Tripwire! If the target/end node has now been hit, just return the route to it...
         if visited[end]:
             return get_route_home(start, end, via)
@@ -101,12 +127,13 @@ def get_route_home(start,end,via):
 
     route.insert(0,start)
 
-    print("Route: " + str(route))
+    if names:
+        for node in range(len(route)):
+            route[node] = names[route[node]]
 
+    return("Route: " + str(route))
 
 
 if __name__ == "__main__":
-    #print(neighbour)
-    #print(get_distance_neighbour(1,2))
 
-    print(dijkstra(0,3))
+    print(dijkstra(0,10))
