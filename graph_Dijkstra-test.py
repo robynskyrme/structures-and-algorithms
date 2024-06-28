@@ -113,7 +113,6 @@ def dijkstra(start,end):
 
 
 def get_route_home(start,end,via):
-    rs = 19
 
     route = []
 
