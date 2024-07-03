@@ -3,12 +3,6 @@
 # after https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/resources/lecture-20-dynamic-programming-ii-text-justification-blackjack/
 # (lecture on Dynamic Programming by Erik Demaine)
 
-# 28.6.2024 -- 1525 -- taking a break for today.
-# It does something, but the last line is wrong, very badly compressed whatever the width
-# Checked "first words" list against output: correct, therefore, error is in the algorithm not in the display method
-# Also: certain widths simply break the program. (45, in this case)
-
-
 import sys
 
                             # set line length (width in characters) as a global, just for simplicity
@@ -133,5 +127,5 @@ def badness(words):
 
 if __name__ == "__main__":
 
-    test = justify("zero one 2 3 four 5 six 7 eight nine ten 11 twelve 13 fourteen fifteen sixteen 17 eighteen 19 twenty twenty-one twenty-two 23 twenty-four twenty-five twenty-six twenty-seven twenty-eight 29 thirty 31 thirty-two thirty-three thirty-four thirty-five thirty-six 37 thirty-eight thirty-nine forty 41 forty-two 43 forty-four forty-five forty-six 47 forty-eight forty-nine fifty")
+    test = justify("Call me Ishmael. Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off -- then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")
     print(test)
