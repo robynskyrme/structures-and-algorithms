@@ -3,34 +3,64 @@
 # after https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/resources/lecture-20-dynamic-programming-ii-text-justification-blackjack/
 # (lecture on Dynamic Programming by Erik Demaine)
 
+# 3.7.2024 Original method seemed to do it in reverse leaving the first line always stretched
+# 3.7.2024 working almost fine, except now problems with last line
+
+
 import sys
 
                             # set line length (width in characters) as a global, just for simplicity
-width = 57
+width = 80
 
                             # main methjod
 def justify(text):
     words = string_to_array(text)
 
-                            # list to store indicdes of words which begin lines
+                            # list to store indices of words which begin lines
     first_words = []
 
-    j = len(words)-1
+
+                            # this method seemed to be doing it in reverse
+    # j = len(words)-1
+    #
+    # badmin = sys.maxsize
+    # firstword_temp = len(words)-1
+    #
+    # while j > 1:
+    #     for i in range(j):
+    #         bad = badness(words[i:j])
+    #         if bad < badmin:
+    #             badmin = bad
+    #             firstword_temp = i
+    #
+    #     first_words.insert(0,firstword_temp)
+    #     j = firstword_temp
+    #     badmin = sys.maxsize
+
+    j = 0
+    i = 0
 
     badmin = sys.maxsize
-    firstword_temp = len(words)-1
+    firstword_temp = 0
 
-    while j > 1:
-        for i in range(j):
-            bad = badness(words[i:j])
+
+    done = False
+
+
+    while j < len(words)-1:
+        for i in range(j,len(words)):
+            bad = badness(words[j:i])
             if bad < badmin:
                 badmin = bad
                 firstword_temp = i
 
-        first_words.insert(0,firstword_temp)
+        first_words.append(firstword_temp)
         j = firstword_temp
+
         badmin = sys.maxsize
 
+    if first_words[len(first_words)-1] == len(words)-1:
+        del first_words[len(first_words)-1]
 
     return(array_to_output(words,first_words))
 
@@ -40,8 +70,8 @@ def array_to_output(words,first_words):
     print(first_words)
     print("\n")
 
-    para = []
-    line = -1
+    para = [[]]
+    line = 0
 
     for w in range(len(words)):
         if first_words and w == first_words[0]:
