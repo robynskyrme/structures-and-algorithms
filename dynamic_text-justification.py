@@ -12,7 +12,7 @@
 import sys
 
                             # set line length (width in characters) as a global, just for simplicity
-width = 57
+width = 64
 
                             # main methjod
 def justify(text):
@@ -21,7 +21,7 @@ def justify(text):
                             # list to store indicdes of words which begin lines
     first_words = []
 
-    j = len(words)-1
+    j = len(words)
 
     badmin = sys.maxsize
     firstword_temp = len(words)-1
@@ -133,5 +133,9 @@ def badness(words):
 
 if __name__ == "__main__":
 
-    test = justify("zero one 2 3 four 5 six 7 eight nine ten 11 twelve 13 fourteen fifteen sixteen 17 eighteen 19 twenty twenty-one twenty-two 23 twenty-four twenty-five twenty-six twenty-seven twenty-eight 29 thirty 31 thirty-two thirty-three thirty-four thirty-five thirty-six 37 thirty-eight thirty-nine forty 41 forty-two 43 forty-four forty-five forty-six 47 forty-eight forty-nine fifty")
+    input = input("Text: ")
+
+    print("Width is set to " + str(width))
+    test = justify(input)
+
     print(test)
