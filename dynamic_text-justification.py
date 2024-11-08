@@ -3,40 +3,64 @@
 # after https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-fall-2011/resources/lecture-20-dynamic-programming-ii-text-justification-blackjack/
 # (lecture on Dynamic Programming by Erik Demaine)
 
-# 28.6.2024 -- 1525 -- taking a break for today.
-# It does something, but the last line is wrong, very badly compressed whatever the width
-# Checked "first words" list against output: correct, therefore, error is in the algorithm not in the display method
-# Also: certain widths simply break the program. (45, in this case)
+# 3.7.2024 Original method seemed to do it in reverse leaving the first line always stretched
+# 3.7.2024 working almost fine, except now problems with last line
 
 
 import sys
 
                             # set line length (width in characters) as a global, just for simplicity
-width = 64
+width = 80
 
                             # main methjod
 def justify(text):
     words = string_to_array(text)
 
-                            # list to store indicdes of words which begin lines
+                            # list to store indices of words which begin lines
     first_words = []
 
-    j = len(words)
+
+                            # this method seemed to be doing it in reverse
+    # j = len(words)-1
+    #
+    # badmin = sys.maxsize
+    # firstword_temp = len(words)-1
+    #
+    # while j > 1:
+    #     for i in range(j):
+    #         bad = badness(words[i:j])
+    #         if bad < badmin:
+    #             badmin = bad
+    #             firstword_temp = i
+    #
+    #     first_words.insert(0,firstword_temp)
+    #     j = firstword_temp
+    #     badmin = sys.maxsize
+
+    j = 0
+    i = 0
 
     badmin = sys.maxsize
-    firstword_temp = len(words)-1
+    firstword_temp = 0
 
-    while j > 1:
-        for i in range(j):
-            bad = badness(words[i:j])
+
+    done = False
+
+
+    while j < len(words)-1:
+        for i in range(j,len(words)):
+            bad = badness(words[j:i])
             if bad < badmin:
                 badmin = bad
                 firstword_temp = i
 
-        first_words.insert(0,firstword_temp)
+        first_words.append(firstword_temp)
         j = firstword_temp
+
         badmin = sys.maxsize
 
+    if first_words[len(first_words)-1] == len(words)-1:
+        del first_words[len(first_words)-1]
 
     return(array_to_output(words,first_words))
 
@@ -46,8 +70,8 @@ def array_to_output(words,first_words):
     print(first_words)
     print("\n")
 
-    para = []
-    line = -1
+    para = [[]]
+    line = 0
 
     for w in range(len(words)):
         if first_words and w == first_words[0]:
@@ -133,9 +157,5 @@ def badness(words):
 
 if __name__ == "__main__":
 
-    input = input("Text: ")
-
-    print("Width is set to " + str(width))
-    test = justify(input)
-
+    test = justify("Call me Ishmael. Some years ago -- never mind how long precisely -- having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world. It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off -- then, I account it high time to get to sea as soon as I can. This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.")
     print(test)
